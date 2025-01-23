@@ -15,7 +15,7 @@ local function findClosestPlayerAlongRay(origin, direction)
             if projection > 0 then -- Ensure the player is in front of the ray's origin
                 local projectedPoint = origin + direction.Unit * projection
                 local distanceToRay = (projectedPoint - playerPosition).Magnitude
-                if distanceToRay < 5 and projection < shortestDistance then -- Adjust 5 to a suitable "hit radius"
+                if distanceToRay < 15 and projection < shortestDistance then -- Adjust 5 to a suitable "hit radius"
                     closestPlayer = player
                     shortestDistance = projection
                 end
