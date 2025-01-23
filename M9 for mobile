@@ -1,0 +1,73 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Camera = game.Workspace.CurrentCamera
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+
+-- Function to get the closest player to a screen position
+local function getClosestPlayerToScreenPosition(tapPosition)
+    local closestPlayer = nil
+    local closestDistance = math.huge
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local character = player.Character
+            local humanoidRootPart = character.HumanoidRootPart
+
+            -- project the player's HumanoidRootPart position to screen space
+            local screenPosition, onScreen = Camera:WorldToViewportPoint(humanoidRootPart.Position)
+
+            if onScreen then
+                -- calculate the distance from the tap position to the projected screen position
+                local screenPoint = Vector2.new(screenPosition.X, screenPosition.Y)
+                local distance = (tapPosition - screenPoint).Magnitude
+
+                -- update the closest player
+                if distance < closestDistance then
+                    closestDistance = distance
+                    closestPlayer = player
+                end
+            end
+        end
+    end
+
+    return closestPlayer
+end
+
+-- function to shoot at the closest player
+local function shootAtClosestPlayerFromTap(tapPosition)
+    local targetPlayer = getClosestPlayerToScreenPosition(tapPosition)
+
+    if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        local targetPosition = targetPlayer.Character.HumanoidRootPart.Position
+        local gunPosition = Camera.CFrame.Position -- Gun position (or where the shot originates)
+
+        -- create a raycast from the gun to the target position
+        local direction = (targetPosition - gunPosition).unit * 100 -- Distance can be adjusted
+        local ray = Ray.new(gunPosition, direction)
+
+        -- cast the ray and check what it hits
+        local hit, position = game.Workspace:FindPartOnRay(ray, LocalPlayer.Character, false, true)
+
+        -- check if we hit the player
+        if hit and hit.Parent == targetPlayer.Character then
+            -- Glock shooting logic if the player is hit
+            local args = {
+                [1] = targetPosition
+            }
+
+            -- fire the glock shoot server event
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("Weapons"):WaitForChild("PistolShoot"):FireServer(unpack(args))
+        end
+    else
+        warn("No valid target found near the tap position.")
+    end
+end
+
+-- handle screen taps
+UserInputService.InputBegan:Connect(function(input, processed)
+    if not processed and input.UserInputType == Enum.UserInputType.Touch then
+        local tapPosition = Vector2.new(input.Position.X, input.Position.Y)
+        shootAtClosestPlayerFromTap(tapPosition)
+    end
+end)
