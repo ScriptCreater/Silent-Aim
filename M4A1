@@ -46,7 +46,7 @@ local function shootAtClosestPlayer()
         }
 
         -- Fire the M4A1 shoot server event
-        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("PlayerWeaponRemotes"):WaitForChild("ProAt_NSS"):WaitForChild("M4A1Shoot"):FireServer(unpack(args))
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("PlayerWeaponRemotes"):WaitForChild("LocalPlayer"):WaitForChild("M4A1Shoot"):FireServer(unpack(args))
     else
         warn("No valid target found near the cursor.")
     end
