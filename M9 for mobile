@@ -3,18 +3,22 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 local userInputService = game:GetService("UserInputService")
 local camera = workspace.CurrentCamera
 
--- Function to find the closest player to a position
-local function findClosestPlayerToPoint(worldPosition)
+-- Function to find the closest player along a ray
+local function findClosestPlayerAlongRay(origin, direction)
     local closestPlayer = nil
     local shortestDistance = math.huge -- Start with a very large distance
 
     for _, player in pairs(playerService:GetPlayers()) do
         if player ~= playerService.LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             local playerPosition = player.Character.HumanoidRootPart.Position
-            local distance = (playerPosition - worldPosition).Magnitude
-            if distance < shortestDistance then
-                closestPlayer = player
-                shortestDistance = distance
+            local projection = (playerPosition - origin):Dot(direction) / direction.Magnitude
+            if projection > 0 then -- Ensure the player is in front of the ray's origin
+                local projectedPoint = origin + direction.Unit * projection
+                local distanceToRay = (projectedPoint - playerPosition).Magnitude
+                if distanceToRay < 5 and projection < shortestDistance then -- Adjust 5 to a suitable "hit radius"
+                    closestPlayer = player
+                    shortestDistance = projection
+                end
             end
         end
     end
@@ -22,14 +26,15 @@ local function findClosestPlayerToPoint(worldPosition)
     return closestPlayer
 end
 
--- Function to fire the pistol at the closest player to the tap
+-- Function to fire the pistol at the closest player along the ray
 local function firePistol(tapPosition)
     -- Convert the tap position to a ray in 3D space
     local ray = camera:ViewportPointToRay(tapPosition.X, tapPosition.Y)
-    local worldPosition = ray.Origin + ray.Direction * 100 -- Arbitrary distance along the ray
+    local rayOrigin = ray.Origin
+    local rayDirection = ray.Direction * 1000 -- Long ray for targeting
 
-    -- Find the closest player to the world position
-    local closestPlayer = findClosestPlayerToPoint(worldPosition)
+    -- Find the closest player along the ray
+    local closestPlayer = findClosestPlayerAlongRay(rayOrigin, rayDirection)
     if closestPlayer and closestPlayer.Character and closestPlayer.Character:FindFirstChild("HumanoidRootPart") then
         -- Get the position of the closest player
         local targetCFrame = closestPlayer.Character.HumanoidRootPart.CFrame
@@ -42,7 +47,7 @@ local function firePistol(tapPosition)
         -- Fire the server event
         replicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("Weapons"):WaitForChild("PistolShoot"):FireServer(unpack(args))
     else
-        warn("No valid player found near the tap position!")
+        warn("No valid player found along the ray!")
     end
 end
 
