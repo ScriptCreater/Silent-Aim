@@ -1,0 +1,174 @@
+local ScreenGui      = Instance.new("ScreenGui")
+local Frame          = Instance.new("Frame")
+local TextButton     = Instance.new("TextButton")
+local TextButton1    = Instance.new("TextButton")
+local CloseButton    = Instance.new("TextButton")
+local MinimizeButton = Instance.new("TextButton")
+local TitlePanel     = Instance.new("Frame")
+local TitleLabel     = Instance.new("TextLabel")
+local Tab1Button     = Instance.new("TextButton")
+local Tab2Button     = Instance.new("TextButton")
+local TextButton2 = Instance.new("TextButton")
+local Tab1Frame      = Instance.new("Frame")
+local Tab2Frame      = Instance.new("Frame")
+local isMinimized    = false
+
+-- ScreenGui
+ScreenGui.Parent = game.CoreGui
+
+-- Frame Setup
+Frame.Parent           = ScreenGui
+Frame.Size             = UDim2.new(0, 400, 0, 300)
+Frame.Position         = UDim2.new(0.5, -150, 0.5, -100)
+Frame.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+Frame.BorderSizePixel  = 0
+Frame.Active           = true
+Frame.Draggable        = true -- Re-enable draggable functionality
+
+-- Title Panel for the Title Label
+TitlePanel.Parent           = Frame
+TitlePanel.Size             = UDim2.new(0, Frame.Size.X.Offset, 0, 40)
+TitlePanel.Position         = UDim2.new(0, 0, 0, 0)
+TitlePanel.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+TitlePanel.BorderSizePixel  = 0
+
+-- Title Label
+TitleLabel.Parent           = TitlePanel
+TitleLabel.Position         = UDim2.new(0, 0, 0, 0)
+TitleLabel.Size             = UDim2.new(0, 400, 0, 25)
+TitleLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+TitleLabel.Text             = "Sword Ninja Script Hub"
+TitleLabel.TextColor3       = Color3.fromRGB(0, 163, 203)
+
+-- Text Button
+TextButton.Parent           = Tab1Frame  
+TextButton.Size             = UDim2.new(0, 200, 0, 50)
+TextButton.Position         = UDim2.new(0, 0, 0, 0)  
+TextButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+TextButton.Text             = "M4A1 (pc)"
+TextButton.TextColor3       = Color3.fromRGB(0, 163, 203)
+TextButton.BorderSizePixel  = 0
+TextButton.Visible          = true
+
+-- Text Button functionality
+TextButton.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ScriptCreater/Silent-Aim/refs/heads/main/M4A1"))()
+end)
+
+--Text Button 1
+TextButton1.Parent           = Tab2Frame  
+TextButton1.Size             = UDim2.new(0, 0, 0, 50)
+TextButton1.Position         = UDim2.new(0, 200, 0, 0)  
+TextButton1.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+TextButton1.Text             = "Show Danger c:"
+TextButton1.TextColor3       = Color3.fromRGB(0, 163, 203)
+TextButton1.BorderSizePixel  = 0
+TextButton1.Visible          = true
+
+-- Text Button 1 functionality
+TextButton1.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ScriptCreater/Silent-Aim/refs/heads/main/inmate.lua"))()
+end)
+
+-- Close Button
+CloseButton.Parent           = Frame
+CloseButton.Size             = UDim2.new(0, 25, 0, 25)
+CloseButton.Position         = UDim2.new(1, -25, 0, 0)
+CloseButton.Text             = "X"
+CloseButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+CloseButton.TextColor3       = Color3.fromRGB(0, 163, 203)
+CloseButton.BorderSizePixel  = 0
+
+--text button 2
+TextButton2.Parent           = Tab1Frame  
+TextButton2.Size             = UDim2.new(0, 200, 0, 50)
+TextButton2.Position         = UDim2.new(0, 200, 0, 0)  
+TextButton2.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+TextButton2.Text             = "M9 (mobile)"
+TextButton2.TextColor3       = Color3.fromRGB(0, 163, 203)
+TextButton2.BorderSizePixel  = 0
+TextButton2.Visible          = true
+
+-- Text Button 2 functionality
+TextButton1.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ScriptCreater/Silent-Aim/refs/heads/main/M9%20for%20mobile"))()
+end)
+
+-- Close button functionality
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()  -- Close the GUI when the button is clicked
+end)
+
+-- Minimize Button
+MinimizeButton.Parent           = Frame
+MinimizeButton.Size             = UDim2.new(0, 25, 0, 25)
+MinimizeButton.Position         = UDim2.new(1, -50, 0, 0)
+MinimizeButton.Text             = "-"
+MinimizeButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+MinimizeButton.TextColor3       = Color3.fromRGB(0, 163, 203)
+MinimizeButton.BorderSizePixel  = 0
+
+-- Minimize button functionality
+MinimizeButton.MouseButton1Click:Connect(function()
+    if isMinimized then
+        Frame.Size         = UDim2.new(0, 400, 0, 300)  -- Restore original size
+        TextButton.Visible = true
+        isMinimized        = false
+    else
+        Frame.Size         = UDim2.new(0, 400, 0, 40)  -- Minimize to small height
+        TextButton.Visible = false
+        isMinimized        = true
+    end
+end)
+
+-- Tab 1 button
+Tab1Button.Parent           = Frame
+Tab1Button.Size             = UDim2.new(.5, 0, 0, 30)
+Tab1Button.Position         = UDim2.new(0, 0, 0, 26)
+Tab1Button.Text             = "Tab 1"
+Tab1Button.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Tab1Button.TextColor3       = Color3.fromRGB(0, 163, 203)
+Tab1Button.BorderSizePixel  = 0
+
+-- Tab 2 button
+Tab2Button.Parent           = Frame
+Tab2Button.Size             = UDim2.new(0.5, 0, 0, 30)
+Tab2Button.Position         = UDim2.new(.5, 0, 0, 26)
+Tab2Button.Text             = "Tab 2"
+Tab2Button.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Tab2Button.TextColor3       = Color3.fromRGB(0, 163, 203)
+Tab2Button.BorderSizePixel  = 0
+
+-- Tab 1
+Tab1Frame.Parent           = Frame
+Tab1Frame.Size             = UDim2.new(1, 0, 0, 245)
+Tab1Frame.Position         = UDim2.new(0, 0, 0, 58)
+Tab1Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Tab1Frame.Visible          = true
+
+-- Tab 2
+Tab2Frame.Parent           = Frame
+Tab2Frame.Size             = UDim2.new(1, 0, 0, 245)
+Tab2Frame.Position         = UDim2.new(0, 0, 0, 58)
+Tab2Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Tab2Frame.Visible          = false
+
+-- Tab Switching Functionality
+local function switchTab(tabNumber)
+    if tabNumber == 1 then
+        Tab1Frame.Visible = true
+        Tab2Frame.Visible = false
+    elseif tabNumber == 2 then
+        Tab1Frame.Visible = false
+        Tab2Frame.Visible = true
+    end
+end
+
+-- Connect Tab Buttons
+Tab1Button.MouseButton1Click:Connect(function()
+    switchTab(1)
+end)
+
+Tab2Button.MouseButton1Click:Connect(function()
+    switchTab(2)
+end)
