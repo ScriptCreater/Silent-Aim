@@ -57,8 +57,8 @@ end)
 
 --Text Button 1
 TextButton1.Parent           = Tab2Frame  
-TextButton1.Size             = UDim2.new(0, 0, 0, 50)
-TextButton1.Position         = UDim2.new(0, 200, 0, 0)  
+TextButton1.Size             = UDim2.new(0, 200, 0, 50)
+TextButton1.Position         = UDim2.new(0, 0, 0, 0)  
 TextButton1.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 TextButton1.Text             = "Show Danger c:"
 TextButton1.TextColor3       = Color3.fromRGB(0, 163, 203)
@@ -94,6 +94,21 @@ TextButton1.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/ScriptCreater/Silent-Aim/refs/heads/main/M9%20for%20mobile"))()
 end)
 
+--Text Button 3
+TextButton3.Parent           = Tab2Frame  
+TextButton3.Size             = UDim2.new(0, 200, 0, 50)
+TextButton3.Position         = UDim2.new(0, 200, 0, 0)  
+TextButton3.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+TextButton3.Text             = "Lock On (pc)"
+TextButton3.TextColor3       = Color3.fromRGB(0, 163, 203)
+TextButton3.BorderSizePixel  = 0
+TextButton3.Visible          = true
+
+-- Text Button 2 functionality
+TextButton1.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet(""))()
+end)
+
 -- Close button functionality
 CloseButton.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()  -- Close the GUI when the button is clicked
@@ -125,7 +140,7 @@ end)
 Tab1Button.Parent           = Frame
 Tab1Button.Size             = UDim2.new(.5, 0, 0, 30)
 Tab1Button.Position         = UDim2.new(0, 0, 0, 26)
-Tab1Button.Text             = "Tab 1"
+Tab1Button.Text             = "Silent Aim Guns (more soon...)"
 Tab1Button.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 Tab1Button.TextColor3       = Color3.fromRGB(0, 163, 203)
 Tab1Button.BorderSizePixel  = 0
@@ -134,7 +149,7 @@ Tab1Button.BorderSizePixel  = 0
 Tab2Button.Parent           = Frame
 Tab2Button.Size             = UDim2.new(0.5, 0, 0, 30)
 Tab2Button.Position         = UDim2.new(.5, 0, 0, 26)
-Tab2Button.Text             = "Tab 2"
+Tab2Button.Text             = "Others"
 Tab2Button.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 Tab2Button.TextColor3       = Color3.fromRGB(0, 163, 203)
 Tab2Button.BorderSizePixel  = 0
