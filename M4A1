@@ -39,14 +39,25 @@ local function shootAtClosestPlayer()
 
     if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
         local targetPosition = targetPlayer.Character.HumanoidRootPart.Position
+        local gunPosition = Camera.CFrame.Position -- Gun position (or where the shot originates)
 
-        -- M4A1 Shooting logic
-        local args = {
-            [1] = targetPosition
-        }
+        -- Create a raycast from the gun to the target position
+        local direction = (targetPosition - gunPosition).unit * 100 -- Distance can be adjusted
+        local ray = Ray.new(gunPosition, direction)
 
-        -- Fire the M4A1 shoot server event
-        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("PlayerWeaponRemotes"):WaitForChild("ProAt_NSS"):WaitForChild("M4A1Shoot"):FireServer(unpack(args))
+        -- Cast the ray and check what it hits
+        local hit, position = game.Workspace:FindPartOnRay(ray, LocalPlayer.Character, false, true)
+
+        -- Check if we hit the player
+        if hit and hit.Parent == targetPlayer.Character then
+            -- M4A1 Shooting logic if the player is hit
+            local args = {
+                [1] = targetPosition
+            }
+
+            -- Fire the M4A1 shoot server event
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("PlayerWeaponRemotes"):WaitForChild("ProAt_NSS"):WaitForChild("M4A1Shoot"):FireServer(unpack(args))
+        end
     else
         warn("No valid target found near the cursor.")
     end
@@ -60,7 +71,7 @@ mouse.Button1Down:Connect(function()
     isShooting = true
     while isShooting do
         shootAtClosestPlayer()
-        wait(0.05) -- Reduced wait time to make it faster, adjust this for desired speed
+        wait(0.05) -- Adjust wait time for firing speed
     end
 end)
 
