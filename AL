@@ -38,7 +38,7 @@ TitleLabel.Parent           = TitlePanel
 TitleLabel.Position         = UDim2.new(0, 0, 0, 0)
 TitleLabel.Size             = UDim2.new(0, 400, 0, 25)
 TitleLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-TitleLabel.Text             = "Sword Ninja Script Hub"
+TitleLabel.Text             = "Sword Ninja Asylum Life Script"
 TitleLabel.TextColor3       = Color3.fromRGB(0, 163, 203)
 
 -- Text Button
