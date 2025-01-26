@@ -8,7 +8,8 @@ local TitlePanel     = Instance.new("Frame")
 local TitleLabel     = Instance.new("TextLabel")
 local Tab1Button     = Instance.new("TextButton")
 local Tab2Button     = Instance.new("TextButton")
-local TextButton2 = Instance.new("TextButton")
+local TextButton2    = Instance.new("TextButton")
+loacl TextButton3    = Instance.new("TextButton")
 local Tab1Frame      = Instance.new("Frame")
 local Tab2Frame      = Instance.new("Frame")
 local isMinimized    = false
@@ -104,8 +105,8 @@ TextButton3.TextColor3       = Color3.fromRGB(0, 163, 203)
 TextButton3.BorderSizePixel  = 0
 TextButton3.Visible          = true
 
--- Text Button 2 functionality
-TextButton1.MouseButton1Click:Connect(function()
+-- Text Button 3 functionality
+TextButton3.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet(""))()
 end)
 
