@@ -52,6 +52,8 @@ local function firePistol(tapPosition)
 end
 
 -- Connect the firing function to screen tap
+-- Remove tap function and add connect tap to remote
+--add cframe tool to player to kill them
 userInputService.TouchTap:Connect(function(touchPositions)
     if #touchPositions > 0 then
         local tapPosition = touchPositions[1] -- Use the first touch position
