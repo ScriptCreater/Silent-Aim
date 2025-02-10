@@ -1,0 +1,80 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Camera = game.Workspace.CurrentCamera
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local function getClosestPlayerToCursor()
+    local mouse = LocalPlayer:GetMouse()
+    local closestPlayer = nil
+    local closestDistance = math.huge
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local character = player.Character
+            local humanoidRootPart = character.HumanoidRootPart
+
+            -- Project the player's HumanoidRootPart position to screen space
+            local screenPosition, onScreen = Camera:WorldToViewportPoint(humanoidRootPart.Position)
+
+            if onScreen then
+                -- Calculate the distance from the cursor to the projected screen position
+                local cursorPosition = Vector2.new(mouse.X, mouse.Y)
+                local screenPoint = Vector2.new(screenPosition.X, screenPosition.Y)
+                local distance = (cursorPosition - screenPoint).Magnitude
+
+                -- Update the closest player
+                if distance < closestDistance then
+                    closestDistance = distance
+                    closestPlayer = player
+                end
+            end
+        end
+    end
+
+    return closestPlayer
+end
+
+local function shootAtClosestPlayer()
+    local targetPlayer = getClosestPlayerToCursor()
+
+    if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        local targetPosition = targetPlayer.Character.HumanoidRootPart.Position
+        local gunPosition = Camera.CFrame.Position -- Gun position (or where the shot originates)
+
+        -- Create a raycast from the gun to the target position
+        local direction = (targetPosition - gunPosition).unit * 100 -- Distance can be adjusted
+        local ray = Ray.new(gunPosition, direction)
+
+        -- Cast the ray and check what it hits
+        local hit, position = game.Workspace:FindPartOnRay(ray, LocalPlayer.Character, false, true)
+
+        -- Check if we hit the player
+        if hit and hit.Parent == targetPlayer.Character then
+            -- M4A1 Shooting logic if the player is hit
+            local args = {
+                [1] = targetPosition
+            }
+
+            -- Fire the MP5 shoot server event
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("PlayerWeaponRemotes"):WaitForChild("ProAt_NSS"):WaitForChild("MP5Shoot"):FireServer(unpack(args))
+        end
+    else
+        warn("No valid target found near the cursor.")
+    end
+end
+
+-- Handle automatic shooting when holding down the mouse button
+local mouse = LocalPlayer:GetMouse()
+local isShooting = false
+
+mouse.Button1Down:Connect(function()
+    isShooting = true
+    while isShooting do
+        shootAtClosestPlayer()
+        wait(0.05) -- Adjust wait time for firing speed
+    end
+end)
+
+mouse.Button1Up:Connect(function()
+    isShooting = false
+end)
