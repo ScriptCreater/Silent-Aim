@@ -1,0 +1,102 @@
+local ScreenGui      = Instance.new("ScreenGui")
+local Frame          = Instance.new("Frame")
+local TitlePanel     = Instance.new("Frame")
+local TitleLabel     = Instance.new("TextLabel")
+local CloseButton    = Instance.new("TextButton")
+local MinimizeButton = Instance.new("TextButton")  
+local ScrollingFrame = Instance.new("ScrollingFrame")
+
+-- ScreenGui
+ScreenGui.Parent = game.CoreGui
+
+-- Frame Setup
+Frame.Parent           = ScreenGui
+Frame.Size             = UDim2.new(0, 300, 0, 300)
+Frame.Position         = UDim2.new(0.5, -150, 0.5, -100)
+Frame.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+Frame.BorderSizePixel  = 0
+Frame.Active           = true
+Frame.Draggable        = true
+
+-- Title Panel
+TitlePanel.Parent           = Frame
+TitlePanel.Size             = UDim2.new(0, 300, 0, 40)
+TitlePanel.Position         = UDim2.new(0, 0, 0, 0)
+TitlePanel.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+TitlePanel.BorderSizePixel  = 0
+
+-- Close & Minimize Buttons (Full Height)
+local buttonWidth = 40  
+
+CloseButton.Parent           = TitlePanel
+CloseButton.Size             = UDim2.new(0, buttonWidth, 1, 0)
+CloseButton.Position         = UDim2.new(1, -buttonWidth, 0, 0)
+CloseButton.Text             = "X"
+CloseButton.BackgroundTransparency = 1
+CloseButton.TextColor3       = Color3.fromRGB(0, 163, 203)
+CloseButton.BorderSizePixel  = 0
+CloseButton.Font             = Enum.Font.SourceSans
+CloseButton.TextSize         = 18
+
+MinimizeButton.Parent        = TitlePanel
+MinimizeButton.Size          = UDim2.new(0, buttonWidth, 1, 0)
+MinimizeButton.Position      = UDim2.new(1, -buttonWidth * 2, 0, 0)
+MinimizeButton.Text          = "-"
+MinimizeButton.BackgroundTransparency = 1
+MinimizeButton.TextColor3    = Color3.fromRGB(0, 163, 203)
+MinimizeButton.BorderSizePixel = 0
+MinimizeButton.Font          = Enum.Font.SourceSans
+MinimizeButton.TextSize      = 18
+
+-- Title Label (Now Centered Vertically but Left-Aligned to the Minimize Button)
+TitleLabel.Parent           = TitlePanel
+TitleLabel.Position         = UDim2.new(0, 5, 0, 0) -- Stays left-aligned
+TitleLabel.Size             = UDim2.new(1, -buttonWidth * 2 - 10, 1, 0) -- Stops at the Minimize Button
+TitleLabel.BackgroundTransparency = 1
+TitleLabel.Text             = "Sword Ninja Asylum Life Script"
+TitleLabel.TextColor3       = Color3.fromRGB(0, 163, 203)
+TitleLabel.BorderSizePixel  = 0
+TitleLabel.TextXAlignment   = Enum.TextXAlignment.Left  
+TitleLabel.TextYAlignment   = Enum.TextYAlignment.Center  
+TitleLabel.Font             = Enum.Font.SourceSans
+TitleLabel.TextSize         = 18  
+
+-- Scrolling Frame
+ScrollingFrame.Parent          = Frame
+ScrollingFrame.Size            = UDim2.new(1, 0, 1, -40)
+ScrollingFrame.Position        = UDim2.new(0, 0, 0, 40)
+ScrollingFrame.CanvasSize      = UDim2.new(0, 0, 0, 600)
+ScrollingFrame.ScrollBarThickness = 5
+ScrollingFrame.BackgroundTransparency = 1
+ScrollingFrame.BorderSizePixel  = 0
+
+-- Generate numbered text labels
+for i = 1, 22 do
+    local TextLabel = Instance.new("TextLabel")
+    TextLabel.Parent = ScrollingFrame
+    TextLabel.Size = UDim2.new(1, 0, 0, 20)  
+    TextLabel.Position = UDim2.new(0, 5, 0, (i - 1) * 25)
+    TextLabel.BackgroundTransparency = 1 
+    TextLabel.Text = (i < 10 and "  " or "") .. i .. ". " .. (i == 1 and "test" or i == 2 and "cmds" or "Placeholder")
+    TextLabel.TextColor3 = Color3.fromRGB(0, 163, 203)
+    TextLabel.BorderSizePixel = 0
+    TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+    TextLabel.Font = Enum.Font.SourceSans
+    TextLabel.TextSize = 14
+end
+
+-- Close button functionality
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Minimize button functionality
+MinimizeButton.MouseButton1Click:Connect(function()
+    if ScrollingFrame.Visible then
+        ScrollingFrame.Visible = false  
+        Frame.Size = UDim2.new(0, 300, 0, 40)  
+    else
+        ScrollingFrame.Visible = true   
+        Frame.Size = UDim2.new(0, 300, 0, 300)  
+    end
+end)
